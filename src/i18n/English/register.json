@@ -1,0 +1,13 @@
+{
+  "title": "Sign Up for BitBlogs",
+  "subtitle": "Create your account to start blogging",
+  "nameLabel": "Name",
+  "namePlaceholder": "John Doe",
+  "emailLabel": "Email",
+  "emailPlaceholder": "john@example.com",
+  "passwordLabel": "Password",
+  "confirmPasswordLabel": "Confirm Password",
+  "button": "Sign Up",
+  "existingAccount": "Already have an account?",
+  "loginLink": "Log in"
+}

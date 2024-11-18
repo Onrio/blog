@@ -1,0 +1,11 @@
+{
+  "title": "Log in to BitBlogs",
+  "subtitle": "Enter your credentials to access your account",
+  "emailLabel": "Email",
+  "passwordLabel": "Password",
+  "passwordPlaceholder": "Enter your password",
+  "button": "Login",
+  "forgotPassword": "Forgot Password?",
+  "noAccount": "Don't have an account?",
+  "signUp": "Sign Up"
+}

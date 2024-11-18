@@ -1,0 +1,13 @@
+{
+  "title": "დარეგისტრირდი BitBlogs-ზე",
+  "subtitle": "შექმენი შენი ანგარიში",
+  "nameLabel": "სახელი",
+  "namePlaceholder": "ჯონ დო",
+  "emailLabel": "ელფოსტა",
+  "emailPlaceholder": "john@example.com",
+  "passwordLabel": "პაროლი",
+  "confirmPasswordLabel": "დაადასტურე პაროლი",
+  "button": "დარეგისტრირდი",
+  "existingAccount": "უკვე გაქვს ანგარიში?",
+  "loginLink": "შესვლა"
+}

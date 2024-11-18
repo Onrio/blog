@@ -1,0 +1,11 @@
+{
+  "title": "შესვლა BitBlogs-ზე",
+  "subtitle": "შეიყვანეთ თქვენი მონაცემები",
+  "emailLabel": "ელ.ფოსტა",
+  "passwordLabel": "პაროლი",
+  "passwordPlaceholder": "შეიყვანეთ თქვენი პაროლი",
+  "button": "შესვლა",
+  "forgotPassword": "დაგავიწყდათ პაროლი?",
+  "noAccount": "",
+  "signUp": "დარეგისტრირდი"
+}

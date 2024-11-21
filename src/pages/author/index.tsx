@@ -37,7 +37,6 @@ import {
   blogArticleTitle,
   blogArticleMeta,
   blogArticleDescription,
-  blogArticleButton,
 } from '@/utils/cva';
 
 const Author: React.FC = () => {

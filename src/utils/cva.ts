@@ -171,7 +171,7 @@ export const aboutAuthorCard = cva(
   'mb-12 p-8 shadow-lg max-w-4xl flex gap-8 w-full'
 );
 export const authorImageBlock = cva(
-  'w-30 h-30 rounded-full border-4 border-blue-500 overflow-hidden'
+  'w-[120px] h-[120px] rounded-full border-4 border-blue-500 overflow-hidden'
 );
 export const authorImageBig = cva('w-full h-full object-cover');
 export const authorInfo = cva('flex flex-col flex-1');
@@ -181,7 +181,14 @@ export const aboutAuthorText = cva(
 );
 export const authorSocialMedia = cva('flex gap-4 mb-4');
 export const socialMediaIcon = cva(
-  'w-9 h-9 rounded-full flex justify-center items-center border border-gray-300 hover:bg-gray-200 dark:border-gray-600 dark:hover:bg-gray-700'
+  'w-9 h-9 rounded-full flex justify-center items-center border border-gray-300 hover:bg-gray-200 dark:border-gray-600 dark:hover:bg-gray-700',
+  {
+    variants: {
+      child: {
+        img: 'w-4 h-4',
+      },
+    },
+  }
 );
 export const authorFollowers = cva('flex gap-4');
 export const followersColumn = cva('flex items-center gap-2');

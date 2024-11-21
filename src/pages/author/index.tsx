@@ -99,16 +99,16 @@ const Author: React.FC = () => {
           <p className={aboutAuthorText()}>{author.AboutAuthor}</p>
           <div className={authorSocialMedia()}>
             <a href={author.twitter} className={socialMediaIcon()}>
-              <img src={twitter} alt="twitter icon" />
+              <img src={twitter} alt="twitter icon" className="w-4 h-4" />
             </a>
             <a href={author.facebook} className={socialMediaIcon()}>
-              <img src={facebook} alt="facebook icon" />
+              <img src={facebook} alt="facebook icon" className="w-4 h-4" />
             </a>
             <a href={author.linkedin} className={socialMediaIcon()}>
-              <img src={linkedin} alt="linkedin icon" />
+              <img src={linkedin} alt="linkedin icon" className="w-4 h-4" />
             </a>
             <a href={author.github} className={socialMediaIcon()}>
-              <img src={github} alt="github icon" />
+              <img src={github} alt="github icon" className="w-4 h-4" />
             </a>
           </div>
           <div className={authorFollowers()}>

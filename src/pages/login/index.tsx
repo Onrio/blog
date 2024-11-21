@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   loginContainer,
   loginBox,
@@ -11,9 +11,44 @@ import {
 } from '../../utils/cva';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { login } from '@/supabase/auth/index';
 
 const Login: React.FC = () => {
   const { t } = useTranslation('login');
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const { error } = await login({ email, password });
+
+      if (error) {
+        setError(error.message);
+      } else {
+        alert(t('loginSuccess'));
+      }
+    } catch (error) {
+      setError(t('loginError'));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div
@@ -23,21 +58,40 @@ const Login: React.FC = () => {
       <div className={loginBox()}>
         <h2 className={loginTitle()}>{t('title')}</h2>
         <span className={loginSubtitle()}>{t('subtitle')}</span>
-        <form className="w-full">
+
+        {/* Login Form */}
+        <form className="w-full" onSubmit={handleSubmit}>
           <label>
             <div className={loginLabel()}>{t('emailLabel')}</div>
             <input
               className={loginInput()}
               type="email"
               placeholder="name@example.com"
+              value={email}
+              onChange={handleEmailChange}
+              required
             />
           </label>
           <label>
             <div className={loginLabel()}>{t('passwordLabel')}</div>
-            <input className={loginInput()} type="password" />
+            <input
+              className={loginInput()}
+              type="password"
+              value={password}
+              onChange={handlePasswordChange}
+              required
+            />
           </label>
-          <button className={loginButton()}>{t('button')}</button>
+
+          {/* Show loading spinner if form is submitting */}
+          <button className={loginButton()} type="submit" disabled={loading}>
+            {loading ? t('loading') : t('button')}
+          </button>
+
+          {/* Show error message */}
+          {error && <p className="text-red-500">{error}</p>}
         </form>
+
         <div className={loginLinks()}>
           <a href="">{t('forgotPassword')}</a>
           <span className="text-black dark:text-gray-400">

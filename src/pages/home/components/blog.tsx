@@ -1,3 +1,4 @@
+import React from 'react';
 import placeholder from '@/assets/placeholder.svg';
 import {
   blogArticleContainer,
@@ -9,40 +10,49 @@ import {
   blogArticleDescription,
   blogArticleButton,
 } from '@/utils/cva';
+import { useTranslation } from 'react-i18next';
 
-const BlogArticle = () => {
+const BlogArticle: React.FC = () => {
+  const { t } = useTranslation();
+
+  const articles = t('articles', { ns: 'articles', returnObjects: true }) as {
+    title: string;
+    author: string;
+    date: string;
+    readTime: string;
+    description: string;
+    tags: string[];
+  }[];
+
   return (
     <div className={blogArticleContainer()}>
-      <div className={blogArticleBox()}>
-        <div className={blogArticleImageContainer()}>
-          <img
-            src={placeholder}
-            alt="placeholder"
-            className={blogArticleImage()}
-          />
+      {articles.map((article, index) => (
+        <div key={index} className={blogArticleBox()}>
+          <div className={blogArticleImageContainer()}>
+            <img
+              src={placeholder}
+              alt="placeholder"
+              className={blogArticleImage()}
+            />
+          </div>
+          <h3 className={blogArticleTitle()}>{article.title}</h3>
+          <div className={blogArticleMeta()}>
+            <span>{article.author}</span>
+            <span>•</span>
+            <span>{article.date}</span>
+            <span>•</span>
+            <span>{article.readTime}</span>
+          </div>
+          <p className={blogArticleDescription()}>{article.description}</p>
+          <div className="flex gap-2">
+            {article.tags.map((tag, tagIndex) => (
+              <button key={tagIndex} className={blogArticleButton()}>
+                {tag}
+              </button>
+            ))}
+          </div>
         </div>
-        <h3 className={blogArticleTitle()}>
-          The Future of Blockchain Technology
-        </h3>
-        <div className={blogArticleMeta()}>
-          <span>John Doe</span>
-          <span>•</span>
-          <span>May 15, 2023</span>
-          <span>•</span>
-          <span>5 min read</span>
-        </div>
-        <p className={blogArticleDescription()}>
-          Blockchain technology is revolutionizing various industries. From
-          finance to supply chain management, its potential applications are
-          vast and growing. This decentralized ledger technology offers
-          unprecedented levels of transparency, security, and efficiency.
-        </p>
-        <div className="flex gap-2">
-          <button className={blogArticleButton()}>Blockchain</button>
-          <button className={blogArticleButton()}>Technology</button>
-          <button className={blogArticleButton()}>Future</button>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };

@@ -10,4 +10,13 @@ export default defineConfig({
       '@': `${path.resolve(process.cwd())}/src`,
     },
   },
+  server: {
+    proxy: {
+      '/supabase': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/supabase/, ''),
+      },
+    },
+  },
 });

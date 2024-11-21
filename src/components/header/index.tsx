@@ -9,7 +9,6 @@ import {
   langButton,
   dropdownMenu,
   dropdownButton,
-  signInBtp,
 } from '@/utils/cva';
 import dark from '@/assets/svg/dark.svg';
 import light from '@/assets/svg/light.svg';
@@ -22,6 +21,7 @@ import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import i18n from '@/i18n';
 import { Link } from 'react-router-dom';
+import { buttonVariants } from '@/components/ui/button';
 
 const Header: React.FC = () => {
   const { theme, setTheme } = useTheme();
@@ -54,16 +54,16 @@ const Header: React.FC = () => {
             </a>
           </li>
           <li className={headerList()}>
-            <a href="" className={headerList({ child: 'a' })}>
+            <Link to="/about" className={headerList({ child: 'a' })}>
               {t('about')}
-            </a>
+            </Link>
           </li>
         </ul>
         <div className={headerBtns()}>
           <button>
             <img src={search} alt="search icon" />
           </button>
-          <Link to="login" className={signInBtp()}>
+          <Link to="login" className={buttonVariants({ variant: 'default' })}>
             Sign in
           </Link>
           <div className="relative">

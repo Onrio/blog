@@ -5,6 +5,9 @@ import Layout from './components/layout';
 import Home from './pages/home';
 import Login from '@/pages/login';
 import Register from '@/pages/register';
+import About from './pages/about';
+import AuthorPage from './pages/author';
+
 function App() {
   return (
     <>
@@ -14,6 +17,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+            <Route path="about" element={<About />} />
+            <Route path="/author/:authorId" element={<AuthorPage />} />
           </Route>
         </Routes>
       </ThemeProvider>

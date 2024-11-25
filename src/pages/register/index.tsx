@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
-import { registerUser } from '@/supabase/register';
+import { registerUser } from '@/supabase/register'; // import registerUser function
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -32,12 +32,13 @@ const Register: React.FC = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  // useMutation hook to handle user registration
   const registerMutation = useMutation(registerUser, {
     onSuccess: () => {
       alert(t('registrationSuccess'));
     },
     onError: (error: Error) => {
-      alert(error.message);
+      alert(error.message); // display error message if registration fails
     },
   });
 
@@ -49,7 +50,19 @@ const Register: React.FC = () => {
       return;
     }
 
-    registerMutation.mutate(formData);
+    // Call registerUser with form data
+    registerMutation.mutate({
+      email: formData.email,
+      password: formData.password,
+      name: formData.name,
+      georgianName: formData.georgianName,
+      mobile: formData.mobile,
+      twitter: formData.twitter,
+      facebook: formData.facebook,
+      linkedin: formData.linkedin,
+      github: formData.github,
+      about: formData.about,
+    });
   };
 
   return (

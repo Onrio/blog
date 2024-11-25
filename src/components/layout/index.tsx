@@ -1,7 +1,7 @@
-import Header from '@/components/header/index';
-import Footer from '@/components/footer/index';
+import Header from '@/components/Header/index';
+import Footer from '@/components/Footer/index';
 import { Outlet } from 'react-router-dom';
-import { PageContainer } from '@/components/page-container/page-container';
+import { PageContainer } from '@/components/PageContainer';
 
 const Layout = () => {
   return (

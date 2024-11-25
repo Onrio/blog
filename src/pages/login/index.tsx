@@ -12,6 +12,7 @@ import {
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { login } from '@/supabase/auth/index';
+import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const { t } = useTranslation('login');
@@ -29,6 +30,8 @@ const Login: React.FC = () => {
     setPassword(e.target.value);
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -41,7 +44,7 @@ const Login: React.FC = () => {
       if (error) {
         setError(error.message);
       } else {
-        alert(t('loginSuccess'));
+        navigate('/');
       }
     } catch (error) {
       setError(t('loginError'));
@@ -59,7 +62,6 @@ const Login: React.FC = () => {
         <h2 className={loginTitle()}>{t('title')}</h2>
         <span className={loginSubtitle()}>{t('subtitle')}</span>
 
-        {/* Login Form */}
         <form className="w-full" onSubmit={handleSubmit}>
           <label>
             <div className={loginLabel()}>{t('emailLabel')}</div>
@@ -83,12 +85,10 @@ const Login: React.FC = () => {
             />
           </label>
 
-          {/* Show loading spinner if form is submitting */}
           <button className={loginButton()} type="submit" disabled={loading}>
             {loading ? t('loading') : t('button')}
           </button>
 
-          {/* Show error message */}
           {error && <p className="text-red-500">{error}</p>}
         </form>
 

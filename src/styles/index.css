@@ -26,7 +26,7 @@ h1 {
   line-height: 1.1;
 }
 .root {
-  min-height: calc(100vh - 70px - 64px);
+  min-height: calc(100vh - 70px - 67px);
 }
 button {
   border-radius: 8px;

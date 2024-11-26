@@ -50,8 +50,6 @@ export async function registerUser({
       throw new Error('Failed to register user: ' + authError.message);
     }
 
-    console.log('User successfully registered and profile created:', authData);
-    console.log(authData);
     return authData;
   } catch (error: any) {
     console.error('Registration failed:', error.message);

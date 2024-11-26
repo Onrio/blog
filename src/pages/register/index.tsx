@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
-import { registerUser } from '@/supabase/register'; // import registerUser function
+import { registerUser } from '@/supabase/register';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 
 const Register: React.FC = () => {
   const { t } = useTranslation('register');
@@ -32,13 +33,12 @@ const Register: React.FC = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  // useMutation hook to handle user registration
   const registerMutation = useMutation(registerUser, {
     onSuccess: () => {
       alert(t('registrationSuccess'));
     },
     onError: (error: Error) => {
-      alert(error.message); // display error message if registration fails
+      alert(error.message);
     },
   });
 
@@ -50,7 +50,6 @@ const Register: React.FC = () => {
       return;
     }
 
-    // Call registerUser with form data
     registerMutation.mutate({
       email: formData.email,
       password: formData.password,
@@ -66,57 +65,77 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center">
+    <div
+      className="flex justify-center items-center"
+      style={{ minHeight: 'calc(100vh - 70px - 70px)' }}
+    >
       <div className="w-full max-w-md bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg">
         {step === 1 && (
           <>
             <h2 className="text-xl font-semibold mb-4">{t('step1Title')}</h2>
             <form>
-              <Input
-                className="mb-4"
-                type="text"
-                name="name"
-                placeholder={t('namePlaceholder')}
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-              />
-              <Input
-                className="mb-4"
-                type="text"
-                name="georgianName"
-                placeholder={t('georgianNamePlaceholder')}
-                value={formData.georgianName}
-                onChange={handleInputChange}
-                required
-              />
-              <Input
-                className="mb-4"
-                type="email"
-                name="email"
-                placeholder={t('emailPlaceholder')}
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-              />
-              <Input
-                className="mb-4"
-                type="password"
-                name="password"
-                placeholder={t('passwordPlaceholder')}
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-              />
-              <Input
-                className="mb-4"
-                type="password"
-                name="confirmPassword"
-                placeholder={t('confirmPasswordPlaceholder')}
-                value={formData.confirmPassword}
-                onChange={handleInputChange}
-                required
-              />
+              <div className="mb-4">
+                <Label htmlFor="name">{t('nameLabel')}</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
+                <Label htmlFor="georgianName">{t('georgianNameLabel')}</Label>
+                <Input
+                  id="georgianName"
+                  type="text"
+                  name="georgianName"
+                  value={formData.georgianName}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
+                <Label htmlFor="email">{t('emailLabel')}</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
+                <Label htmlFor="password">{t('passwordLabel')}</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
+                <Label htmlFor="confirmPassword">
+                  {t('confirmPasswordLabel')}
+                </Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+
               <Button
                 className="w-full"
                 type="button"
@@ -130,57 +149,74 @@ const Register: React.FC = () => {
 
         {step === 2 && (
           <>
-            <Button
-              variant="outline"
-              type="button"
-              className="mb-4"
-              onClick={() => setStep(1)}
-            >
-              {t('previous')}
-            </Button>
-            <h2 className="text-xl font-semibold mb-4">{t('step2Title')}</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">{t('step2Title')}</h2>
+              <Button
+                variant="ghost"
+                type="button"
+                className="p-0"
+                onClick={() => setStep(1)}
+              >
+                {t('previous')}
+              </Button>
+            </div>
             <form>
-              <Input
-                className="mb-4"
-                type="text"
-                name="mobile"
-                placeholder={t('mobilePlaceholder')}
-                value={formData.mobile}
-                onChange={handleInputChange}
-                required
-              />
-              <Input
-                className="mb-4"
-                type="text"
-                name="twitter"
-                placeholder={t('twitterPlaceholder')}
-                value={formData.twitter}
-                onChange={handleInputChange}
-              />
-              <Input
-                className="mb-4"
-                type="text"
-                name="facebook"
-                placeholder={t('facebookPlaceholder')}
-                value={formData.facebook}
-                onChange={handleInputChange}
-              />
-              <Input
-                className="mb-4"
-                type="text"
-                name="linkedin"
-                placeholder={t('linkedinPlaceholder')}
-                value={formData.linkedin}
-                onChange={handleInputChange}
-              />
-              <Input
-                className="mb-4"
-                type="text"
-                name="github"
-                placeholder={t('githubPlaceholder')}
-                value={formData.github}
-                onChange={handleInputChange}
-              />
+              <div className="mb-4">
+                <Label htmlFor="mobile">{t('mobileLabel')}</Label>
+                <Input
+                  id="mobile"
+                  type="text"
+                  name="mobile"
+                  value={formData.mobile}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
+                <Label htmlFor="twitter">{t('twitterLabel')}</Label>
+                <Input
+                  id="twitter"
+                  type="text"
+                  name="twitter"
+                  value={formData.twitter}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div className="mb-4">
+                <Label htmlFor="facebook">{t('facebookLabel')}</Label>
+                <Input
+                  id="facebook"
+                  type="text"
+                  name="facebook"
+                  value={formData.facebook}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div className="mb-4">
+                <Label htmlFor="linkedin">{t('linkedinLabel')}</Label>
+                <Input
+                  id="linkedin"
+                  type="text"
+                  name="linkedin"
+                  value={formData.linkedin}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div className="mb-4">
+                <Label htmlFor="github">{t('githubLabel')}</Label>
+                <Input
+                  id="github"
+                  type="text"
+                  name="github"
+                  value={formData.github}
+                  onChange={handleInputChange}
+                />
+              </div>
+
               <Button
                 className="w-full"
                 type="button"
@@ -194,24 +230,23 @@ const Register: React.FC = () => {
 
         {step === 3 && (
           <>
-            <Button
-              variant="outline"
-              type="button"
-              className="mb-4"
-              onClick={() => setStep(2)}
-            >
-              {t('previous')}
-            </Button>
-            <h2 className="text-xl font-semibold mb-4">{t('step3Title')}</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">{t('step3Title')}</h2>
+              <Button variant="ghost" type="button" onClick={() => setStep(2)}>
+                {t('previous')}
+              </Button>
+            </div>
             <form onSubmit={handleSubmit}>
-              <Textarea
-                className="mb-4"
-                name="about"
-                placeholder={t('aboutPlaceholder')}
-                value={formData.about}
-                onChange={handleInputChange}
-                required
-              />
+              <div className="mb-4">
+                <Label htmlFor="about">{t('aboutLabel')}</Label>
+                <Textarea
+                  id="about"
+                  name="about"
+                  value={formData.about}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
               <Button
                 className="w-full"
                 type="submit"

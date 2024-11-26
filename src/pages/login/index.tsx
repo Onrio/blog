@@ -39,10 +39,10 @@ const Login: React.FC = () => {
     setError(null);
 
     try {
-      const { error } = await login({ email, password });
+      const { user, session } = await login({ email, password });
 
-      if (error) {
-        setError(error.message);
+      if (!user || !session) {
+        setError(t('loginError'));
       } else {
         navigate('/');
       }

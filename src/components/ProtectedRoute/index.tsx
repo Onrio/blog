@@ -1,9 +1,12 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuthContext } from '@/context/auth/hooks/useAuthContext';
 
-const ProtectedRoute: React.FC = () => {
+export const ProtectedRoute: React.FC = () => {
   const { user } = useAuthContext();
-  return user ? <Outlet /> : <Navigate to="/" replace />;
+  return user ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
-export default ProtectedRoute;
+export const RouteWithuser: React.FC = () => {
+  const { user } = useAuthContext();
+  return !user ? <Outlet /> : <Navigate to="/profile" replace />;
+};

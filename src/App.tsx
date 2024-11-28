@@ -9,7 +9,7 @@ import About from './pages/about';
 import AuthorPage from './pages/author';
 import Profile from '@/pages/profile';
 import { useEffect } from 'react';
-import ProtectedRoute from './components/ProtectedRoute';
+import { ProtectedRoute, RouteWithuser } from './components/ProtectedRoute';
 import { supabase } from '@/supabase';
 import { useAuthContext } from '@/context/auth/hooks/useAuthContext';
 
@@ -36,10 +36,10 @@ function App() {
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
-            <Route element={<ProtectedRoute />}>
+            <Route element={<RouteWithuser />}>
               <Route path="login" element={<Login />} />
             </Route>
-            <Route element={<ProtectedRoute />}>
+            <Route element={<RouteWithuser />}>
               <Route path="register" element={<Register />} />
             </Route>
             <Route path="about" element={<About />} />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   loginContainer,
   loginBox,
@@ -11,46 +11,39 @@ import {
 } from '../../utils/cva';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useForm } from 'react-hook-form';
 import { login } from '@/supabase/auth/index';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from 'react-query';
+
+interface LoginFormInputs {
+  email: string;
+  password: string;
+}
 
 const Login: React.FC = () => {
   const { t } = useTranslation('login');
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    trigger,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormInputs>();
 
-    setLoading(true);
-    setError(null);
+  const loginMutation = useMutation(login, {
+    onSuccess: () => {
+      navigate('/');
+    },
+    onError: (error: any) => {
+      console.error('Login failed:', error.message);
+      alert(t('loginError'));
+    },
+  });
 
-    try {
-      const { user, session } = await login({ email, password });
-
-      if (!user || !session) {
-        setError(t('loginError'));
-      } else {
-        navigate('/');
-      }
-    } catch (error) {
-      setError(t('loginError'));
-    } finally {
-      setLoading(false);
-    }
+  const onLoginSubmit = (data: LoginFormInputs) => {
+    loginMutation.mutate(data);
   };
 
   return (
@@ -62,34 +55,51 @@ const Login: React.FC = () => {
         <h2 className={loginTitle()}>{t('title')}</h2>
         <span className={loginSubtitle()}>{t('subtitle')}</span>
 
-        <form className="w-full" onSubmit={handleSubmit}>
+        <form className="w-full" onSubmit={handleSubmit(onLoginSubmit)}>
           <label>
             <div className={loginLabel()}>{t('emailLabel')}</div>
             <input
               className={loginInput()}
               type="email"
               placeholder="name@example.com"
-              value={email}
-              onChange={handleEmailChange}
-              required
+              {...register('email', {
+                required: t('emailRequired') as string,
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: t('emailInvalid') as string,
+                },
+              })}
+              onBlur={() => trigger('email')}
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm mb-2">
+                {errors.email.message}
+              </p>
+            )}
           </label>
           <label>
             <div className={loginLabel()}>{t('passwordLabel')}</div>
             <input
               className={loginInput()}
               type="password"
-              value={password}
-              onChange={handlePasswordChange}
-              required
+              {...register('password', {
+                required: t('passwordRequired') as string,
+              })}
             />
+            {errors.password && (
+              <p className="text-red-500 text-sm mb-2">
+                {errors.password.message}
+              </p>
+            )}
           </label>
 
-          <button className={loginButton()} type="submit" disabled={loading}>
-            {loading ? t('loading') : t('button')}
+          <button
+            className={loginButton()}
+            type="submit"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? t('loading') : t('button')}
           </button>
-
-          {error && <p className="text-red-500">{error}</p>}
         </form>
 
         <div className={loginLinks()}>

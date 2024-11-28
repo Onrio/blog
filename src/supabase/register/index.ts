@@ -1,4 +1,5 @@
 import { supabase } from '@/supabase';
+import { useNavigate } from 'react-router-dom';
 
 export async function registerUser({
   email,
@@ -6,11 +7,12 @@ export async function registerUser({
   name,
   georgianName,
   mobile,
-  twitter,
-  facebook,
-  linkedin,
-  github,
-  about,
+  twitter = '',
+  facebook = '',
+  linkedin = '',
+  github = '',
+  about = '',
+  navigate,
 }: {
   email: string;
   password: string;
@@ -22,11 +24,8 @@ export async function registerUser({
   linkedin?: string;
   github?: string;
   about?: string;
+  navigate: ReturnType<typeof useNavigate>;
 }) {
-  if (!email || !password || !name || !georgianName) {
-    throw new Error('Required fields are missing.');
-  }
-
   try {
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
@@ -46,13 +45,20 @@ export async function registerUser({
     });
 
     if (authError) {
-      console.error('Error during Supabase auth sign-up:', authError.message);
-      throw new Error('Failed to register user: ' + authError.message);
+      console.error('Supabase sign-up error:', authError.message);
+      throw new Error(`Sign-up failed: ${authError.message}`);
     }
 
+    if (!authData) {
+      throw new Error('Unexpected error: No data returned from Supabase.');
+    }
+
+    navigate('/');
     return authData;
   } catch (error: any) {
-    console.error('Registration failed:', error.message);
-    throw new Error('Registration failed. Please try again later.');
+    console.error('Registration error:', error.message);
+    throw new Error(
+      error.message || 'Registration failed. Please try again later.'
+    );
   }
 }

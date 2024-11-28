@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { supabase } from '@/supabase';
 import twitter from '@/assets/svg/twitter.svg';
 import facebook from '@/assets/svg/facebook.svg';
@@ -36,14 +37,29 @@ import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
+import { Database } from '@/supabase/supabase.types';
+
+type Profile = Database['public']['Tables']['profiles']['Row'];
+
+interface ProfileInputs {
+  name: string;
+  georgianName: string;
+  about: string;
+}
+
 const Profile: React.FC = () => {
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
-  const [editName, setEditName] = useState('');
-  const [editGeorgianName, setEditGeorgianName] = useState('');
-  const [editAbout, setEditAbout] = useState('');
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    trigger,
+    reset,
+  } = useForm<ProfileInputs>();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -67,9 +83,12 @@ const Profile: React.FC = () => {
           console.error('Error fetching profile:', error.message);
         } else {
           setProfile(profileData);
-          setEditName(profileData.username || '');
-          setEditGeorgianName(profileData.georgian_name || '');
-          setEditAbout(profileData.about || '');
+
+          reset({
+            name: profileData.username || '',
+            georgianName: profileData.georgian_name || '',
+            about: profileData.about || '',
+          });
         }
 
         const avatar = createAvatar(avataaars, {
@@ -91,16 +110,21 @@ const Profile: React.FC = () => {
     };
 
     fetchProfile();
-  }, []);
+  }, [reset]);
 
-  const handleUpdateProfile = async () => {
+  const onSubmit = async (data: ProfileInputs) => {
     try {
       if (!profile) return;
 
       const updates = {
-        username: editName,
-        georgian_name: editGeorgianName,
-        about: editAbout,
+        username: data.name,
+        georgian_name: data.georgianName,
+        about: data.about,
+        mobile: profile.mobile || null,
+        twitter: profile.twitter || null,
+        facebook: profile.facebook || null,
+        linkedin: profile.linkedin || null,
+        github: profile.github || null,
       };
 
       const { error } = await supabase
@@ -117,7 +141,6 @@ const Profile: React.FC = () => {
         ...prev,
         ...updates,
       }));
-      alert('Profile updated successfully!');
     } catch (error: any) {
       console.error('Error updating profile:', error.message);
     }
@@ -156,34 +179,70 @@ const Profile: React.FC = () => {
                 <DialogHeader>
                   <DialogTitle>Edit Your Profile</DialogTitle>
                   <DialogDescription>
-                    <Label htmlFor="editName">Edit Name</Label>
-                    <Input
-                      id="editName"
-                      type="text"
-                      value={editName}
-                      onChange={(e) => setEditName(e.target.value)}
-                      required
-                    />
-                    <Label htmlFor="editGeorgianName">Edit Georgian Name</Label>
-                    <Input
-                      id="editGeorgianName"
-                      type="text"
-                      value={editGeorgianName}
-                      onChange={(e) => setEditGeorgianName(e.target.value)}
-                      required
-                    />
-                    <Label htmlFor="about">Edit About</Label>
-                    <Textarea
-                      id="about"
-                      value={editAbout}
-                      onChange={(e) => setEditAbout(e.target.value)}
-                      required
-                    />
-                    <Button className="w-full" onClick={handleUpdateProfile}>
-                      Save Changes
-                    </Button>
+                    Please update your profile details below.
                   </DialogDescription>
                 </DialogHeader>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <Label htmlFor="name">Edit Name</Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    {...register('name', {
+                      required: t('nameRequired') as string,
+                      maxLength: {
+                        value: 50,
+                        message: t('nameTooLong') as string,
+                      },
+                    })}
+                    onBlur={() => trigger('name')}
+                  />
+                  {errors.name && (
+                    <p className="text-red-500 text-sm">
+                      {errors.name.message}
+                    </p>
+                  )}
+
+                  <Label htmlFor="georgianName">Edit Georgian Name</Label>
+                  <Input
+                    id="georgianName"
+                    type="text"
+                    {...register('georgianName', {
+                      required: t('georgianNameRequired') as string,
+                    })}
+                    onBlur={() => trigger('georgianName')}
+                  />
+                  {errors.georgianName && (
+                    <p className="text-red-500 text-sm">
+                      {errors.georgianName.message}
+                    </p>
+                  )}
+
+                  <Label htmlFor="about">Edit About</Label>
+                  <Textarea
+                    id="about"
+                    {...register('about', {
+                      required: t('aboutRequired') as string,
+                      maxLength: {
+                        value: 200,
+                        message: t('aboutTooLong') as string,
+                      },
+                    })}
+                    onBlur={() => trigger('about')}
+                  />
+                  {errors.about && (
+                    <p className="text-red-500 text-sm">
+                      {errors.about.message}
+                    </p>
+                  )}
+
+                  <Button
+                    className="w-full mt-4"
+                    type="submit"
+                    disabled={isSubmitting}
+                  >
+                    Save
+                  </Button>
+                </form>
               </DialogContent>
             </Dialog>
           </div>
@@ -239,9 +298,7 @@ const Profile: React.FC = () => {
                 alt="Followers icon"
                 className={followersIcon()}
               />
-              <span className={followersText()}>
-                {profile.followers || '0'} Followers
-              </span>
+              <span className={followersText()}>0 Followers</span>
             </div>
             <div className={followersColumn()}>
               <img
@@ -249,9 +306,7 @@ const Profile: React.FC = () => {
                 alt="Following icon"
                 className={followersIcon()}
               />
-              <span className={followersText()}>
-                {profile.following || '0'} Following
-              </span>
+              <span className={followersText()}>0 Following</span>
             </div>
           </div>
         </div>

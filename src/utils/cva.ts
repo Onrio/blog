@@ -55,7 +55,7 @@ export const loginLabel = cva(
   'text-[rgb(3,5,12)] dark:text-[rgb(255,255,255)] text-[14px] mb-2'
 );
 export const loginInput = cva(
-  'w-full p-2 mb-4 border border-gray-300 rounded dark:bg-custom-gray-dark dark:border-[rgb(51,61,75)]'
+  'w-full p-2 mb-2 border border-gray-300 rounded dark:bg-custom-gray-dark dark:border-[rgb(51,61,75)]'
 );
 export const loginButton = cva(
   'w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700'

@@ -36,8 +36,12 @@ function App() {
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="login" element={<Login />} />
+            </Route>
+            <Route element={<ProtectedRoute />}>
+              <Route path="register" element={<Register />} />
+            </Route>
             <Route path="about" element={<About />} />
             <Route path="/author/:authorId" element={<AuthorPage />} />
             <Route element={<ProtectedRoute />}>

@@ -41,7 +41,6 @@ export const offerCardTitle = cva(
 export const offerCardtext = cva(
   `text-[14px] text-[rgb(85,88,104)] dark:text-[rgb(151,155,170)]`
 );
-
 // Author Page Styles
 export const socialMediaIcon = cva(
   'w-9 h-9 rounded-full flex justify-center items-center border border-gray-300 hover:bg-gray-200 dark:border-gray-600 dark:hover:bg-gray-700',

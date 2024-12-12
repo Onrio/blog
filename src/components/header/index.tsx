@@ -1,15 +1,4 @@
-import {
-  header,
-  headerLogo,
-  headerUl,
-  headerList,
-  headerButton,
-  headerContainer,
-  headerBtns,
-  langButton,
-  dropdownMenu,
-  dropdownButton,
-} from '@/utils/cva';
+import { headerList, dropdownButton } from '@/utils/cva';
 import dark from '@/assets/svg/dark.svg';
 import light from '@/assets/svg/light.svg';
 import search from '@/assets/svg/search.svg';
@@ -36,7 +25,6 @@ const Header: React.FC = () => {
   const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
 
   const { user, handleSetUser } = useAuthContext();
-
   const { mutate: handleLogout } = useMutation({
     mutationKey: ['logout'],
     mutationFn: async () => {
@@ -75,10 +63,10 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className={header()}>
-      <div className={headerContainer()}>
-        <div className={headerLogo()}>BitBlogs</div>
-        <ul className={headerUl()}>
+    <header className="border-b border-custom-gray dark:border-custom-gray-dark">
+      <div className="container flex justify-between mx-auto p-4 items-center">
+        <div className="font-bold text-2xl">BitBlogs</div>
+        <ul className="gap-4 hidden md:flex">
           <li className={headerList()}>
             <Link to="/" className={headerList({ child: 'a' })}>
               {t('home')}
@@ -95,7 +83,7 @@ const Header: React.FC = () => {
             </Link>
           </li>
         </ul>
-        <div className={headerBtns()}>
+        <div className="flex gap-4 items-center">
           <button>
             <img src={search} alt="search icon" />
           </button>
@@ -114,7 +102,7 @@ const Header: React.FC = () => {
 
           <div className="relative">
             <button
-              className={langButton()}
+              className="w-9 h-9 p-2 hover:bg-gray-200 dark:hover:bg-[rgb(33,37,53)] flex justify-center items-center border border-solid border-gray-200 dark:border-[rgb(33,37,53)]"
               onClick={toggleDropdown}
               aria-expanded={isDropdownOpen}
             >
@@ -125,7 +113,7 @@ const Header: React.FC = () => {
             </button>
 
             {isDropdownOpen && (
-              <div className={dropdownMenu()}>
+              <div className="absolute w-40 top-10 right-0 bg-white border border-gray-200 rounded shadow-lg p-1">
                 <button
                   onClick={() => handleLanguage('en')}
                   className={dropdownButton()}
@@ -143,7 +131,7 @@ const Header: React.FC = () => {
           </div>
           <button
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className={headerButton()}
+            className="w-9 h-9 p-2 hover:bg-gray-200 dark:hover:bg-[rgb(33,37,53)] flex justify-center items-center border border-solid border-gray-200 dark:border-[rgb(33,37,53)]"
           >
             {theme === 'dark' ? (
               <img src={light} alt="Light mode" />

@@ -1,10 +1,7 @@
 import React from 'react';
 import {
   ourMissionArticleH2,
-  ourOfferBlock,
-  ourOfferRow,
   ourOffercard,
-  offerCardSvg,
   offerCardTitle,
   offerCardtext,
 } from '@/utils/cva';
@@ -17,18 +14,18 @@ const Offer: React.FC = () => {
   const { t } = useTranslation('about');
 
   return (
-    <div className={ourOfferBlock()}>
+    <div className="w-full flex flex-col items-center mb-12">
       <h1 className={ourMissionArticleH2()}>{t('offer.title')}</h1>
-      <div className={ourOfferRow()}>
+      <div className="flex gap-6 w-full pt-8">
         <div className={ourOffercard()}>
-          <img src={bookSvg} alt="" className={offerCardSvg()} />
+          <img src={bookSvg} alt="" className="w-10 h-10 mb-2" />
           <h4 className={offerCardTitle()}>{t('offer.richContent.title')}</h4>
           <p className={offerCardtext()}>
             {t('offer.richContent.description')}
           </p>
         </div>
         <div className={ourOffercard()}>
-          <img src={comm} alt="" className={offerCardSvg()} />
+          <img src={comm} alt="" className="w-10 h-10 mb-2" />
           <h4 className={offerCardTitle()}>
             {t('offer.vibrantCommunity.title')}
           </h4>
@@ -37,7 +34,7 @@ const Offer: React.FC = () => {
           </p>
         </div>
         <div className={ourOffercard()}>
-          <img src={lightning} alt="" className={offerCardSvg()} />
+          <img src={lightning} alt="" className="w-10 h-10 mb-2" />
           <h4 className={offerCardTitle()}>
             {t('offer.cuttingEdgeTopics.title')}
           </h4>

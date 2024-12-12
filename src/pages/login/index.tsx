@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  loginContainer,
-  loginBox,
-  loginTitle,
-  loginSubtitle,
-  loginLabel,
-  loginInput,
-  loginButton,
-  loginLinks,
-} from '../../utils/cva';
+import { loginInput } from '../../utils/cva';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
@@ -48,16 +39,22 @@ const Login: React.FC = () => {
 
   return (
     <div
-      className={loginContainer()}
+      className="flex justify-center items-center"
       style={{ minHeight: 'calc(100vh - 70px - 64px)' }}
     >
-      <div className={loginBox()}>
-        <h2 className={loginTitle()}>{t('title')}</h2>
-        <span className={loginSubtitle()}>{t('subtitle')}</span>
+      <div className="w-[446px] max-h-full border border-gray-200 dark:border-[rgb(31,41,55)] rounded-[12px] shadow-[rgba(0,0,0,0.1)_0px_1px_2px_0px] p-6 flex flex-col items-center">
+        <h2 className="font-bold text-2xl mb-2 text-[rgb(3,5,12)] dark:text-[rgb(255,255,255)]">
+          {t('title')}
+        </h2>
+        <span className="font-bold text-2xl mb-2 text-[rgb(3,5,12)] dark:text-[rgb(255,255,255)]">
+          {t('subtitle')}
+        </span>
 
         <form className="w-full" onSubmit={handleSubmit(onLoginSubmit)}>
           <label>
-            <div className={loginLabel()}>{t('emailLabel')}</div>
+            <div className="text-[rgb(3,5,12)] dark:text-[rgb(255,255,255)] text-[14px] mb-2">
+              {t('emailLabel')}
+            </div>
             <input
               className={loginInput()}
               type="email"
@@ -78,7 +75,9 @@ const Login: React.FC = () => {
             )}
           </label>
           <label>
-            <div className={loginLabel()}>{t('passwordLabel')}</div>
+            <div className="text-[rgb(3,5,12)] dark:text-[rgb(255,255,255)] text-[14px] mb-2">
+              {t('passwordLabel')}
+            </div>
             <input
               className={loginInput()}
               type="password"
@@ -94,7 +93,7 @@ const Login: React.FC = () => {
           </label>
 
           <button
-            className={loginButton()}
+            className="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
             type="submit"
             disabled={isSubmitting}
           >
@@ -102,7 +101,7 @@ const Login: React.FC = () => {
           </button>
         </form>
 
-        <div className={loginLinks()}>
+        <div className="w-full flex justify-between mt-4 text-sm text-blue-600 dark:text-blue-400">
           <a href="">{t('forgotPassword')}</a>
           <span className="text-black dark:text-gray-400">
             {t('noAccount')}{' '}

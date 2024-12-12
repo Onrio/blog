@@ -11,32 +11,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import placeholder from '@/assets/placeholder.svg';
 import {
-  authorPageContainer,
-  aboutAuthorCard,
-  authorImageBlock,
-  authorImageBig,
-  authorInfo,
-  authorNameText,
-  aboutAuthorText,
-  authorSocialMedia,
   socialMediaIcon,
-  authorFollowers,
   followersColumn,
   followersIcon,
   followersText,
-  authorTabCard,
-  aboutCard,
-  aboutCardTitle,
-  aboutCardText,
-  skillsTitle,
-  skillsList,
-  skillsItem,
-  blogArticleBox,
-  blogArticleImageContainer,
-  blogArticleImage,
-  blogArticleTitle,
-  blogArticleMeta,
-  blogArticleDescription,
 } from '@/utils/cva';
 
 const Author: React.FC = () => {
@@ -88,15 +66,17 @@ const Author: React.FC = () => {
   }
 
   return (
-    <div className={authorPageContainer()}>
-      <div className={aboutAuthorCard()}>
-        <div className={authorImageBlock()}>
-          <img src={person} alt="" className={authorImageBig()} />
+    <div className="max-w-full px-4 py-8 flex flex-col items-center">
+      <div className="mb-12 p-8 shadow-lg max-w-4xl flex gap-8 w-full">
+        <div className="w-[120px] h-[120px] rounded-full border-4 border-blue-500 overflow-hidden">
+          <img src={person} alt="" className="w-full h-full object-cover" />
         </div>
-        <div className={authorInfo()}>
-          <h2 className={authorNameText()}>{author.name}</h2>
-          <p className={aboutAuthorText()}>{author.AboutAuthor}</p>
-          <div className={authorSocialMedia()}>
+        <div className="flex flex-col flex-1">
+          <h2 className="text-3xl font-bold mb-2">{author.name}</h2>
+          <p className="text-base mb-4 text-gray-600 dark:text-gray-300">
+            {author.AboutAuthor}
+          </p>
+          <div className="flex gap-4 mb-4">
             <a href={author.twitter} className={socialMediaIcon()}>
               <img src={twitter} alt="twitter icon" className="w-4 h-4" />
             </a>
@@ -110,8 +90,8 @@ const Author: React.FC = () => {
               <img src={github} alt="github icon" className="w-4 h-4" />
             </a>
           </div>
-          <div className={authorFollowers()}>
-            <div className={followersColumn()}>
+          <div className="flex gap-4">
+            <div className="flex items-center gap-2">
               <img
                 src={follower}
                 alt="followers icon"
@@ -134,7 +114,7 @@ const Author: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className={authorTabCard()}>
+      <div className="max-w-4xl w-full">
         <Tabs defaultValue="article" className="w-full">
           <TabsList>
             <TabsTrigger value="article">Articles</TabsTrigger>
@@ -144,21 +124,26 @@ const Author: React.FC = () => {
             {authorArticles.length > 0 ? (
               <div className="author-articles">
                 {authorArticles.map((article, index) => (
-                  <div key={index} className={blogArticleBox()}>
-                    <div className={blogArticleImageContainer()}>
+                  <div
+                    key={index}
+                    className="w-full p-6 border border-gray-300 rounded-lg shadow-md dark:border-[rgb(51,61,75)] mb-8"
+                  >
+                    <div className="h-52 overflow-hidden rounded-lg mb-4">
                       <img
                         src={placeholder}
                         alt="Article"
-                        className={blogArticleImage()}
+                        className="w-full h-full object-cover mb-4"
                       />
                     </div>
-                    <h3 className={blogArticleTitle()}>{article.title}</h3>
-                    <div className={blogArticleMeta()}>
+                    <h3 className="text-xl font-bold mb-2 text-[rgb(3,5,12)] dark:text-[rgb(255,255,255)]">
+                      {article.title}
+                    </h3>
+                    <div className="flex gap-2 text-sm text-gray-500 mb-6 dark:text-[rgb(151,155,170)]">
                       <span>{article.date}</span>
                       <span>•</span>
                       <span>{article.readTime}</span>
                     </div>
-                    <p className={blogArticleDescription()}>
+                    <p className="text-gray-600 mb-6 dark:text-[rgb(151,155,170)]">
                       {article.description}
                     </p>
                     <div className="flex gap-2">
@@ -176,13 +161,22 @@ const Author: React.FC = () => {
             )}
           </TabsContent>
           <TabsContent value="about">
-            <div className={aboutCard()}>
-              <h3 className={aboutCardTitle()}>About {author.name}</h3>
-              <p className={aboutCardText()}>{author.About}</p>
-              <h4 className={skillsTitle()}>Skills</h4>
-              <div className={skillsList()}>
+            <div className="p-6 rounded-lg border border-gray-300 dark:border-gray-600">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
+                About {author.name}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300 mb-6">
+                {author.About}
+              </p>
+              <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-3">
+                Skills
+              </h4>
+              <div className="flex gap-3">
                 {author.skills.map((skill, idx) => (
-                  <span key={idx} className={skillsItem()}>
+                  <span
+                    key={idx}
+                    className="px-3 py-1 text-xs bg-blue-500 text-white rounded-full"
+                  >
                     {skill}
                   </span>
                 ))}

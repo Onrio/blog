@@ -13,6 +13,8 @@ import aboutEn from './English/aboutUs.json';
 import aboutKa from './Georgian/aboutUs.json';
 import authorsEn from './English/authors.json';
 import authorsKa from './Georgian/authors.json';
+import blogEn from './English/blog.json';
+import blogKa from './Georgian/blog.json';
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -22,7 +24,8 @@ i18n.use(initReactI18next).init({
       register: registerKa,
       articles: articlesKa,
       about: aboutKa,
-      autors: authorsKa,
+      authors: authorsKa,
+      blog: blogKa,
     },
     en: {
       layout: LayoutEng,
@@ -30,7 +33,8 @@ i18n.use(initReactI18next).init({
       register: registerEn,
       articles: articlesEn,
       about: aboutEn,
-      autors: authorsEn,
+      authors: authorsEn,
+      blog: blogEn,
     },
   },
   lng: 'en',
